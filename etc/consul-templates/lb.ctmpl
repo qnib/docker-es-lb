@@ -1,0 +1,13 @@
+
+upstream elasticsearch {
+  {{range service "elasticsearch" "passing"}}server {{.Address}}:{{.Port}};{{end}}
+}
+
+server {
+  listen 9200;
+
+  location / {
+    proxy_pass http://elasticsearch;
+    proxy_redirect off;
+  }
+}

@@ -1,0 +1,30 @@
+consul:
+    image: qnib/consul
+    ports:
+     - "8500:8500"
+    environment:
+    - DC_NAME=dc1
+    dns: 127.0.0.1
+    hostname: consul
+    privileged: true
+
+elasticsearch:
+  image: qnib/elasticsearch
+  environment:
+   - DC_NAME=dc1
+   - ES_CLUSTER_NAME=test
+  dns: 127.0.0.1
+  volumes:
+   - /var/lib/elasticsearch
+  privileged: true
+  links:
+   - consul:consul
+
+es-lb:
+  image: qnib/es-lb
+  dns: 127.0.0.1
+  hostname: es-lb
+  links:
+   - consul:consul
+  environment:
+   - DC_NAME=dc1
