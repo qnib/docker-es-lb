@@ -23,6 +23,8 @@ elasticsearch:
 es-lb:
   image: qnib/es-lb
   dns: 127.0.0.1
+  ports:
+   - "9200:9200"
   hostname: es-lb
   links:
    - consul:consul

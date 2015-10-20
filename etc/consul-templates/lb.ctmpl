@@ -1,6 +1,6 @@
-
 upstream elasticsearch {
-  {{range service "elasticsearch" "passing"}}server {{.Address}}:{{.Port}};{{end}}
+  {{range service "elasticsearch" "passing"}}{{ if .Tags | contains "meta" }}# Skip meta-node {{.Node}}{{else}}server {{.Address}}:{{.Port}}; # {{.Node}}{{end}}
+  {{end}}
 }
 
 server {
